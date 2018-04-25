@@ -25,60 +25,64 @@ const getIcon = icon => {
 export const getMenuMatchKeys = (flatMenuKeys, path) =>
   flatMenuKeys.filter(item => pathToRegexp(item).test(path));
 
-class SiderMenu extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.menus = props.menuData;
-    this.flatMenuKeys = this.getFlatMenuKeys(props.menuData);
-    this.state = {
-      openKeys: this.getDefaultCollapsedSubMenus(props.location)
-    };
-  }
+/**
+ * Recursively flatten the data
+ * @param {Array} menuData - 菜单原始数据
+ * @returns {Array} 扁平化菜单key
+ */
+const getFlatMenuKeys = menuData => {
+ let keys = [];
+ menuData.forEach(item => {
+   if (item.children) {
+     keys = keys.concat(getFlatMenuKeys(item.children));
+   }
+   keys.push(item.path);
+ });
+ return keys;
+};
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.location.pathname !== this.props.location.pathname) {
-      this.setState({
-        openKeys: this.getDefaultCollapsedSubMenus(nextProps.location)
-      });
-    }
-  }
-
-  /**
+/**
    * Convert pathname to openKeys
    * /list/search/articles => ['list', '/list/search']
    * @param {Object} location - 当前路由位置
    * @param {string} location.pathname - 当前路由路径
    * @returns {Array} 路径片段
    */
-  getDefaultCollapsedSubMenus = props => {
-    const { pathname } = props || this.props;
+const getDefaultCollapsedSubMenus = props => {
+    const { location: { pathname } } = props;
     return urlToList(pathname)
-      .map(item => getMenuMatchKeys(this.flatMenuKeys, item)[0])
+      .map(item => getMenuMatchKeys(getFlatMenuKeys(props.menuData), item)[0])
       .filter(item => item);
   };
 
-  /**
-   * Recursively flatten the data
-   * @param {Array} menus - 菜单原始数据
-   * @returns {Array} 扁平化菜单key
-   */
-  getFlatMenuKeys = menus => {
-    let keys = [];
-    menus.forEach(item => {
-      if (item.children) {
-        keys = keys.concat(this.getFlatMenuKeys(item.children));
-      }
-      keys.push(item.path);
-    });
-    return keys;
-  };
+class SiderMenu extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.menus = props.menuData;
+    this.flatMenuKeys = getFlatMenuKeys(props.menuData);
+    this.state = {
+      openKeys: getDefaultCollapsedSubMenus(props)
+    };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return {
+      openKeys: getDefaultCollapsedSubMenus(nextProps)
+    };
+  }
+
+  
+
+  
 
   /**
    * Get selected child nodes
    * /user/chen => ['user', '/user/:id']
    */
   getSelectedMenuKeys = () => {
-    const { location: { pathname } } = this.props;
+    const {
+      location: { pathname }
+    } = this.props;
     return urlToList(pathname).map(path =>
       getMenuMatchKeys(this.flatMenuKeys, path).pop()
     );

@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import MenuItem from './MenuItem';
 import Icon from '../Icon';
 
-import { compareArrays } from './utils';
+// import { compareArrays } from './utils';
 
 import styles from './sider.less';
 
@@ -18,17 +18,12 @@ class SubMenu extends PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const { selectedKeys, openKeys, path } = nextProps;
-    if (
-      !compareArrays(openKeys, this.props.openKeys) ||
-      !compareArrays(selectedKeys, this.props.selectedKeys)
-    ) {
-      this.setState({
-        expanded: openKeys.includes(path),
-        selected: selectedKeys.includes(path)
-      });
-    }
+    return {
+      expanded: openKeys.includes(path),
+      selected: selectedKeys.includes(path)
+    };
   }
 
   handleSubMenuClick = (ev, path, openKeys) => {
