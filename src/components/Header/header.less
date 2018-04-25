@@ -1,0 +1,48 @@
+@import '../../common/less/themes/custom';
+
+.header {
+  position: fixed;
+  width: 100%;
+  height: 56px;
+  line-height: 56px;
+  background: white;
+  z-index: @zindex-header;
+  &-item {
+    cursor: pointer;
+    display: inline-block;
+    padding: 0 @padding-md;
+    height: 100%;
+    &:hover {
+      background: #e6f7ff;
+    }
+  }
+}
+
+.sider-header {
+  float: left;
+  width: @sider-width;
+  height: 56px;
+  background: @sider-header-background;
+  transition: @sider-transition;
+  &-collapsed {
+    composes: sider-header;
+    width: @sider-collapsed-width;
+  }
+  &-logo {
+    display: inline-block;
+    width: 100%;
+    height: 56px;
+    background: url('../../common/img/logo.png');
+    background-size: 200px 56px;
+  }
+}
+
+.main-header {
+  margin-left: @sider-width;
+  box-shadow: @shadow-1-down;
+  transition: @sider-transition;
+  &-collapsed {
+    composes: main-header;
+    margin-left: @sider-collapsed-width;
+  }
+}

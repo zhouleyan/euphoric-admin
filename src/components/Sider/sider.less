@@ -1,0 +1,163 @@
+@import '../../common/less/themes/custom.less';
+
+.sider {
+  position: fixed;
+  overflow-y: visible;
+  padding-top: 56px;
+  float: left;
+  width: @sider-width;
+  height: 100%;
+  background: @sider-background;
+  z-index: @zindex-sider;
+  transition: @sider-transition;
+  &-collapsed {
+    composes: sider;
+    width: @sider-collapsed-width;
+  }
+  /*webkit内核*/
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+  ::-webkit-scrollbar-button {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-webkit-scrollbar-track-piece {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-webkit-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-webkit-scrollbar-resizer {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  /*o内核*/
+  .-o-scrollbar {
+    -moz-appearance: none !important;
+    background: rgba(0, 255, 0, 0) !important;
+  }
+  ::-o-scrollbar-button {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-o-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-o-scrollbar-track-piece {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-o-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-o-scrollbar-corner {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-o-scrollbar-resizer {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  /*IE10,IE11,IE12*/
+  -ms-scroll-chaining: chained;
+  -ms-overflow-style: none;
+  -ms-content-zooming: zoom;
+  -ms-scroll-rails: none;
+  -ms-content-zoom-limit-min: 100%;
+  -ms-content-zoom-limit-max: 500%;
+  -ms-scroll-snap-type: proximity;
+  -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+  -ms-overflow-style: none;
+  &-menu {
+    list-style: none;
+    padding: 0 0 96px 0;
+    &::before {
+      content: ' ';
+      display: table;
+    }
+    & > li {
+      position: relative;
+    }
+  }
+}
+
+.sub-menu {
+  &-title {
+    cursor: pointer;
+    position: relative;
+    padding: 4px 17px;
+    height: 50px;
+    line-height: 42px;
+    color: @sider-menu-text-color;
+    overflow: hidden;
+    white-space: nowrap;
+    &:hover {
+      background: @sider-menu-background-hover;
+      color: @sider-menu-text-color-hover;
+    }
+    :global(.@{iconfont-css-prefix}) {
+      margin-right: 17px;
+    }
+    &-expanded {
+      composes: sub-menu-title;
+      background: @sider-menu-background-hover;
+      color: @sider-menu-text-color-hover;
+    }
+  }
+  &-arrow {
+    float: right;
+    font-size: 12px;
+    :global(.@{iconfont-css-prefix}) {
+      margin-right: 0;
+    }
+  }
+}
+
+.menu-item {
+  &-wrapper {
+    list-style: none;
+    padding: 0;
+    background: @sider-menu-background-hover;
+    &-collapsed {
+      composes: menu-item-wrapper;
+      position: absolute;
+      width: 200px;
+      left: 48px;
+      top: 0;
+      z-index: 100;
+    }
+    &-hidden {
+      composes: menu-item-wrapper;
+      height: 0;
+      overflow: hidden;
+    }
+    &::before {
+      content: ' ';
+      display: table;
+    }
+  }
+  padding: 4px 0;
+  line-height: 42px;
+  & > a {
+    display: block;
+    padding: 0 48px;
+    color: @sider-menu-text-color;
+    overflow: hidden;
+    white-space: nowrap;
+    &:hover {
+      color: @sider-menu-text-color-hover;
+    }
+  }
+  &-selected {
+    composes: menu-item;
+    & > a {
+      color: @sider-menu-text-color-hover;
+    }
+  }
+}

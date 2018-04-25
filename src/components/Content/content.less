@@ -1,0 +1,12 @@
+@import '../../common/less/themes/custom.less';
+
+.content {
+  position: relative;
+  margin-left: @sider-width;
+  padding-top: 56px;
+  transition: @sider-transition;
+  &-collapsed {
+    composes: content;
+    margin-left: @sider-collapsed-width;
+  }
+}
