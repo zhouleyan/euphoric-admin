@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
+import Debounce from 'lodash-decorators/debounce';
 import PropTypes from 'prop-types';
 
 import Sider from '../../components/Sider';
@@ -32,6 +33,25 @@ const getRedirect = item => {
 };
 getMenuData().forEach(getRedirect);
 
+/**
+ * 监听窗口变化事件（兼容IE）
+ */
+const addEventListener = (el, ev, cb) => {
+  if (el.addEventListener) {
+    el.addEventListener(ev, cb);
+  } else {
+    el.attachEvent(`on${ev}`, cb.bind(el));
+  }
+};
+
+const removeEventListener = (el, ev, cb) => {
+  if (el.removeEventListener) {
+    el.removeEventListener(ev, cb);
+  } else {
+    el.detachEvent(`on${ev}`, cb.bind(el));
+  }
+};
+
 @connect(({ router: { location } }) => ({ location }), { push })
 class Main extends Component {
   constructor(props) {
@@ -40,6 +60,62 @@ class Main extends Component {
       collapsed: false,
       auto: true
     };
+    this.resizeSider = this.resizeSider.bind(this);
+  }
+
+  componentDidMount() {
+    // if (window.addEventListener) {
+    //   window.addEventListener('resize', () =>
+    //     this.resizeSider(this.state, this.onSwitch)
+    //   );
+    // } else {
+    //   window.attachEvent('onresize', () =>
+    //     this.resizeSider(this.state, this.onSwitch).bind(window)
+    //   );
+    // }
+    addEventListener(window, 'resize', () =>
+      this.resizeSider(this.state, this.onSwitch)
+    );
+  }
+
+  componentWillUnmount() {
+    // if (window.removeEventListener) {
+    //   window.removeEventListener(
+    //     'resize',
+    //     () => this.resizeSider(this.state, this.onSwitch),
+    //     false
+    //   );
+    // } else {
+    //   window.detachEvent('onresize', () =>
+    //     this.resizeSider(this.state, this.onSwitch).bind(window)
+    //   );
+    // }
+    removeEventListener(window, 'resize', () =>
+      this.resizeSider(this.state, this.onSwitch)
+    );
+  }
+
+  /**
+   * 监听窗口宽度调整折叠状态
+   * @param {Object} state - Main组件状态(collapsed, auto)
+   * @param {updateCollapsedState} onResize - 判断窗口宽度状态后改变界面折叠状态
+   */
+  @Debounce(250)
+  resizeSider({ collapsed, auto }, onResize, edgeWidth = 1000) {
+    const less = (window.innerWidth || document.body.clientWidth) < edgeWidth;
+    if (less) {
+      if (collapsed || auto) {
+        onResize(true, true);
+      } else {
+        onResize(false, false);
+      }
+    } else {
+      if (collapsed && !auto) {
+        onResize(true, false);
+      } else {
+        onResize(false, true);
+      }
+    }
   }
 
   getBashRedirect = () => {
