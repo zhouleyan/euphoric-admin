@@ -5,7 +5,7 @@ import { getMenuData } from './menu';
 import Main from '../views/Main';
 
 /* 鉴权 */
-import Login from '../views/Login';
+import Auth from '../views/Auth';
 
 /* 仪表盘 */
 import Dashboard from '../views/Dashboard';
@@ -50,9 +50,6 @@ export const getRouterData = () => {
     '/compute/image': {
       component: Image
     },
-    '/compute/image/image-detail': {
-      component: Image
-    },
     '/network/load-balance': {
       component: LoadBalance
     },
@@ -70,10 +67,11 @@ export const getRouterData = () => {
       authority: ['fucker']
     },
     '/auth': {
-      component: Login
+      component: Auth
     },
     '/auth/login': {
-      component: Login
+      name: '登录',
+      component: Auth.Login
     }
   };
 

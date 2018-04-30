@@ -1,7 +1,5 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-// import { Switch } from 'react-router-dom';
-
 
 import Authorized from './utils/Authorized';
 
@@ -11,11 +9,11 @@ const { AuthorizedRoute } = Authorized;
 
 const App = () => {
   const routerData = getRouterData();
-  const Login = routerData['/auth'].component;
+  const Auth = routerData['/auth'].component;
   const Main = routerData['/'].component;
   return (
     <Switch>
-      <Route path="/auth" component={Login} />
+      <Route path="/auth" render={props => <Auth {...props} routerData={routerData} />} />
       <AuthorizedRoute
         path="/"
         render={props => <Main {...props} routerData={routerData} />}

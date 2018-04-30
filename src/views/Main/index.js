@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Debounce from 'lodash-decorators/debounce';
+import PropTypes from 'prop-types';
+import DocumentTitle from 'react-document-title';
+
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import Debounce from 'lodash-decorators/debounce';
-import PropTypes from 'prop-types';
 
 import Authorized from '../../utils/Authorized';
 import Sider from '../../components/Sider';
@@ -59,7 +61,7 @@ const removeEventListener = (el, ev, cb) => {
 };
 
 @connect(({ router: { location } }) => ({ location }), { push })
-class Main extends Component {
+class Main extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -103,6 +105,18 @@ class Main extends Component {
       }
     }
   }
+
+  getPageTitle = () => {
+    const {
+      routerData,
+      location: { pathname }
+    } = this.props;
+    let title = 'EuphoricAdmin';
+    if (routerData[pathname] && routerData[pathname].name) {
+      title = `${routerData[pathname].name} - EuphoricAdmin`;
+    }
+    return title;
+  };
 
   getBashRedirect = () => {
     const urlParams = new URL(window.location.href);
@@ -180,39 +194,41 @@ class Main extends Component {
     const bashRedirect = this.getBashRedirect();
     const { match, routerData, location } = this.props;
     return (
-      <div className={styles.container}>
-        <Header
-          collapsed={this.state.collapsed}
-          onHeaderItemClick={this.handleHeaderItemClicked}
-          onMenuItemClick={this.handleMenuItemClicked}
-        />
-        <Sider
-          Authorized={Authorized}
-          collapsed={this.state.collapsed}
-          menuData={getMenuData()}
-          location={location}
-          onMenuItemClick={this.handleMenuItemClicked}
-        />
-        <Content collapsed={this.state.collapsed}>
-          <Switch>
-            {redirectData.map(item => (
-              <Redirect key={item.from} exact from={item.from} to={item.to} />
-            ))}
-            {getRoutes(match.path, routerData).map(item => (
-              <AuthorizedRoute
-                key={item.key}
-                path={item.path}
-                component={item.component}
-                exact={item.exact}
-                authority={item.authority}
-                redirectPath="/exception/403"
-              />
-            ))}
-            {bashRedirect && <Redirect exact from="/" to={bashRedirect} />}
-            <Route render={() => <div>404</div>} />
-          </Switch>
-        </Content>
-      </div>
+      <DocumentTitle title={this.getPageTitle()}>
+        <div className={styles.container}>
+          <Header
+            collapsed={this.state.collapsed}
+            onHeaderItemClick={this.handleHeaderItemClicked}
+            onMenuItemClick={this.handleMenuItemClicked}
+          />
+          <Sider
+            Authorized={Authorized}
+            collapsed={this.state.collapsed}
+            menuData={getMenuData()}
+            location={location}
+            onMenuItemClick={this.handleMenuItemClicked}
+          />
+          <Content collapsed={this.state.collapsed}>
+            <Switch>
+              {redirectData.map(item => (
+                <Redirect key={item.from} exact from={item.from} to={item.to} />
+              ))}
+              {getRoutes(match.path, routerData).map(item => (
+                <AuthorizedRoute
+                  key={item.key}
+                  path={item.path}
+                  component={item.component}
+                  exact={item.exact}
+                  authority={item.authority}
+                  redirectPath="/exception/403"
+                />
+              ))}
+              {bashRedirect && <Redirect exact from="/" to={bashRedirect} />}
+              <Route render={() => <div>404</div>} />
+            </Switch>
+          </Content>
+        </div>
+      </DocumentTitle>
     );
   }
 }
