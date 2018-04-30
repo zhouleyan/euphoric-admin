@@ -1,5 +1,7 @@
 import React from 'react';
 
-export default ({ type }) => (
+const Icon = ({ type }) => (
   <i className={`anticon anticon-${type}`} />
 );
+
+export default Icon;

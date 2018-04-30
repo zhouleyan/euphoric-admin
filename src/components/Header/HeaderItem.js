@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './header.less';
 
-export default ({ float, children, onHeaderItemClick }) => (
+const HeaderItem = ({ float, children, onHeaderItemClick }) => (
   <span
     className={styles.headerItem}
     style={{float}}
@@ -15,3 +15,5 @@ export default ({ float, children, onHeaderItemClick }) => (
     {children}
   </span>
 );
+
+export default HeaderItem;

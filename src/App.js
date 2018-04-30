@@ -9,7 +9,7 @@ import { getRouterData } from './routes/router';
 
 const { AuthorizedRoute } = Authorized;
 
-export default () => {
+const App = () => {
   const routerData = getRouterData();
   const Login = routerData['/auth'].component;
   const Main = routerData['/'].component;
@@ -25,3 +25,5 @@ export default () => {
     </Switch>
   );
 };
+
+export default App;
