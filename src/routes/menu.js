@@ -48,7 +48,7 @@ const menuData = [
     children: [
       {
         name: '云硬盘',
-        path: 'volume'
+        path: 'volume',
       },
       {
         name: '快照',
@@ -56,7 +56,8 @@ const menuData = [
       },
       {
         name: '测试',
-        path: 'http://www.sina.com'
+        path: 'http://www.sina.com',
+        authority: 'rfr'
       }
     ]
   },
@@ -64,6 +65,7 @@ const menuData = [
     name: '外部链接',
     icon: 'global',
     path: 'global',
+    authority: 'rfr',
     children: [
       {
         name: '百度',

@@ -41,12 +41,6 @@ export const getRouterData = () => {
     '/': {
       component: Main
     },
-    '/auth': {
-      component: Login
-    },
-    '/auth/login': {
-      component: Login
-    },
     '/dashboard': {
       component: Dashboard
     },
@@ -72,7 +66,14 @@ export const getRouterData = () => {
       component: Volume
     },
     '/storage/snapshot': {
-      component: Snapshot
+      component: Snapshot,
+      authority: ['fucker']
+    },
+    '/auth': {
+      component: Login
+    },
+    '/auth/login': {
+      component: Login
     }
   };
 

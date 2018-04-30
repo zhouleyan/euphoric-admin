@@ -6,7 +6,7 @@ class Test extends PureComponent {
   }
 
   componentWillUnmount() {
-    console.log('test2 unmount');
+    ('test2 unmount');
   }
 
   render() {

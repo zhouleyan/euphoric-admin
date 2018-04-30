@@ -8,13 +8,6 @@ import HeaderItem from './HeaderItem';
 import styles from './header.less';
 
 class Header extends PureComponent {
-  // headerItemClicked = (ev, action) => {
-  //   console.log(action);
-  //   ev.stopPropagation();
-  //   ev.preventDefault();
-  //   this.props.onHeaderItemClick(action);
-  // };
-
   render() {
     const { collapsed, onMenuItemClick, onHeaderItemClick } = this.props;
     return (
@@ -29,25 +22,12 @@ class Header extends PureComponent {
           >
             <Icon type={collapsed ? 'menu-unfold' : 'menu-fold'} />
           </HeaderItem>
-          {/* <span
-            className={styles.headerItem}
-            onClick={ev => this.headerItemClicked(ev, 'onCollapse')}
-          >
-            <Icon type={collapsed ? 'menu-unfold' : 'menu-fold'} />
-          </span> */}
           <HeaderItem
             float="right"
             onHeaderItemClick={() => onHeaderItemClick('onLogout')}
           >
             个人中心
           </HeaderItem>
-          {/* <span
-            className={styles.headerItem}
-            onClick={ev => this.headerItemClicked(ev, 'onLogout')}
-            style={{ float: 'right' }}
-          >
-            个人中心
-          </span> */}
         </div>
       </div>
     );

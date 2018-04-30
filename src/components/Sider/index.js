@@ -31,29 +31,31 @@ export const getMenuMatchKeys = (flatMenuKeys, path) =>
  * @returns {Array} 扁平化菜单key
  */
 const getFlatMenuKeys = menuData => {
- let keys = [];
- menuData.forEach(item => {
-   if (item.children) {
-     keys = keys.concat(getFlatMenuKeys(item.children));
-   }
-   keys.push(item.path);
- });
- return keys;
+  let keys = [];
+  menuData.forEach(item => {
+    if (item.children) {
+      keys = keys.concat(getFlatMenuKeys(item.children));
+    }
+    keys.push(item.path);
+  });
+  return keys;
 };
 
 /**
-   * Convert pathname to openKeys
-   * /list/search/articles => ['list', '/list/search']
-   * @param {Object} location - 当前路由位置
-   * @param {string} location.pathname - 当前路由路径
-   * @returns {Array} 路径片段
-   */
+ * Convert pathname to openKeys
+ * /list/search/articles => ['list', '/list/search']
+ * @param {Object} location - 当前路由位置
+ * @param {string} location.pathname - 当前路由路径
+ * @returns {Array} 路径片段
+ */
 const getDefaultCollapsedSubMenus = props => {
-    const { location: { pathname } } = props;
-    return urlToList(pathname)
-      .map(item => getMenuMatchKeys(getFlatMenuKeys(props.menuData), item)[0])
-      .filter(item => item);
-  };
+  const {
+    location: { pathname }
+  } = props;
+  return urlToList(pathname)
+    .map(item => getMenuMatchKeys(getFlatMenuKeys(props.menuData), item)[0])
+    .filter(item => item);
+};
 
 class SiderMenu extends PureComponent {
   constructor(props) {
@@ -71,9 +73,27 @@ class SiderMenu extends PureComponent {
     };
   }
 
-  
-
-  
+  /**
+   * filterAuthorizedMenu 过滤有权限菜单
+   */
+  filterAuthorizedMenu = menus => {
+    if (this.props.Authorized && this.props.Authorized.checkMenu) {
+      const { checkMenu } = this.props.Authorized;
+      // 过滤第一层
+      return menus
+        .filter(menu => !menu.authority || checkMenu(menu.authority))
+        .map(menu => {
+          // 过滤第二层
+          if (menu.children) {
+            menu.children = menu.children.filter(
+              child => !child.authority || checkMenu(child.authority)
+            );
+          }
+          return menu;
+        });
+    }
+    return menus;
+  };
 
   /**
    * Get selected child nodes
@@ -89,10 +109,13 @@ class SiderMenu extends PureComponent {
   };
 
   /**
-   * checkMenuPermission
+   * checkPermissionItem
    */
-  checkMenuPermission = (authority, MenuDom) => {
-    // todo: menu permissions...
+  checkPermissionItem = (authority, MenuDom) => {
+    if (this.props.Authorized && this.props.Authorized.check) {
+      const { check } = this.props.Authorized;
+      return check(authority, MenuDom);
+    }
     return MenuDom;
   };
 
@@ -115,11 +138,12 @@ class SiderMenu extends PureComponent {
     if (!menus) {
       return [];
     }
+    menus = this.filterAuthorizedMenu(menus);
     return menus
       .filter(menu => menu.name && !menu.hideInMenu)
       .map(menu => {
         const MenuDom = this.getSubMenuOrItem(menu);
-        return this.checkMenuPermission(menu.aythority, MenuDom);
+        return this.checkPermissionItem(menu.authority, MenuDom);
       })
       .filter(menu => menu);
   };

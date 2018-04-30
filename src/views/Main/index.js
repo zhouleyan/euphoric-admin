@@ -5,6 +5,7 @@ import { push } from 'react-router-redux';
 import Debounce from 'lodash-decorators/debounce';
 import PropTypes from 'prop-types';
 
+import Authorized from '../../utils/Authorized';
 import Sider from '../../components/Sider';
 import Header from '../../components/Header';
 import Content from '../../components/Content';
@@ -13,6 +14,8 @@ import { getMenuData } from '../../routes/menu';
 import { getRoutes, typeOf } from '../../utils';
 
 import styles from './main.less';
+
+const { AuthorizedRoute, check } = Authorized;
 
 /**
  * 根据菜单自动获取重定向地址。
@@ -34,7 +37,7 @@ const getRedirect = item => {
 getMenuData().forEach(getRedirect);
 
 /**
- * 监听窗口变化事件（兼容IE）
+ * 添加窗口变化事件（兼容IE）监听
  */
 const addEventListener = (el, ev, cb) => {
   if (el.addEventListener) {
@@ -44,6 +47,9 @@ const addEventListener = (el, ev, cb) => {
   }
 };
 
+/**
+ * 移除窗口变化事件（兼容IE）监听
+ */
 const removeEventListener = (el, ev, cb) => {
   if (el.removeEventListener) {
     el.removeEventListener(ev, cb);
@@ -64,32 +70,12 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    // if (window.addEventListener) {
-    //   window.addEventListener('resize', () =>
-    //     this.resizeSider(this.state, this.onSwitch)
-    //   );
-    // } else {
-    //   window.attachEvent('onresize', () =>
-    //     this.resizeSider(this.state, this.onSwitch).bind(window)
-    //   );
-    // }
     addEventListener(window, 'resize', () =>
       this.resizeSider(this.state, this.onSwitch)
     );
   }
 
   componentWillUnmount() {
-    // if (window.removeEventListener) {
-    //   window.removeEventListener(
-    //     'resize',
-    //     () => this.resizeSider(this.state, this.onSwitch),
-    //     false
-    //   );
-    // } else {
-    //   window.detachEvent('onresize', () =>
-    //     this.resizeSider(this.state, this.onSwitch).bind(window)
-    //   );
-    // }
     removeEventListener(window, 'resize', () =>
       this.resizeSider(this.state, this.onSwitch)
     );
@@ -126,14 +112,12 @@ class Main extends Component {
       urlParams.searchParams.delete('redirect');
       window.history.replaceState(null, 'redirect', urlParams.href);
     } else {
-      const redirectMenu = getMenuData()[1];
-      if (
-        redirectMenu &&
-        redirectMenu.children[0] &&
-        redirectMenu.children[0].path
-      ) {
-        redirect = redirectMenu.children[0].path;
-      }
+      const { routerData } = this.props;
+      // Get the first authorized route path in routerData
+      const authorizedPath = Object.keys(routerData).find(
+        item => check(routerData[item].authority, item) && item !== '/'
+      );
+      return authorizedPath;
     }
     return redirect;
   };
@@ -203,6 +187,7 @@ class Main extends Component {
           onMenuItemClick={this.handleMenuItemClicked}
         />
         <Sider
+          Authorized={Authorized}
           collapsed={this.state.collapsed}
           menuData={getMenuData()}
           location={location}
@@ -214,11 +199,13 @@ class Main extends Component {
               <Redirect key={item.from} exact from={item.from} to={item.to} />
             ))}
             {getRoutes(match.path, routerData).map(item => (
-              <Route
+              <AuthorizedRoute
                 key={item.key}
                 path={item.path}
                 component={item.component}
                 exact={item.exact}
+                authority={item.authority}
+                redirectPath="/exception/403"
               />
             ))}
             {bashRedirect && <Redirect exact from="/" to={bashRedirect} />}
