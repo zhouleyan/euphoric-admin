@@ -2,6 +2,7 @@ import React from 'react';
 import Debounce from 'lodash-decorators/debounce';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
+import pathToRegexp from 'path-to-regexp';
 
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -112,8 +113,15 @@ class Main extends React.PureComponent {
       location: { pathname }
     } = this.props;
     let title = 'EuphoricAdmin';
-    if (routerData[pathname] && routerData[pathname].name) {
-      title = `${routerData[pathname].name} - EuphoricAdmin`;
+    let currRouterData = null;
+    // match params path
+    Object.keys(routerData).forEach(key => {
+      if (pathToRegexp(key).test(pathname)) {
+        currRouterData = routerData[key];
+      }
+    });
+    if (currRouterData && currRouterData.name) {
+      title = `${currRouterData.name} - EuphoricAdmin`;
     }
     return title;
   };
