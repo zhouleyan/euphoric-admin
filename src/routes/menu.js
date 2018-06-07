@@ -62,6 +62,17 @@ const menuData = [
     ]
   },
   {
+    name: '学习',
+    icon: 'zhihu',
+    path: 'learning',
+    children: [
+      {
+        name: 'SVG学习',
+        path: 'svg'
+      }
+    ]
+  },
+  {
     name: '外部链接',
     icon: 'global',
     path: 'global',

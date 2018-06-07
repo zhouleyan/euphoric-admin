@@ -23,6 +23,9 @@ import Vlan from '../views/Network/Vlan';
 import Volume from '../views/Storage/Volume';
 import Snapshot from '../views/Storage/Snapshot';
 
+/* 学习 */
+import SVG from '../views/Learning/SVG';
+
 const getFlatMenuData = menus => {
   let keys = {};
   menus.forEach(item => {
@@ -63,8 +66,10 @@ export const getRouterData = () => {
       component: Volume
     },
     '/storage/snapshot': {
-      component: Snapshot,
-      authority: ['fucker']
+      component: Snapshot
+    },
+    '/learning/svg': {
+      component: SVG
     },
     '/auth': {
       component: Auth
