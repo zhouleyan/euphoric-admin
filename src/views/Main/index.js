@@ -126,7 +126,7 @@ class Main extends React.PureComponent {
     return title;
   };
 
-  getBashRedirect = () => {
+  getBaseRedirect = () => {
     const urlParams = new URL(window.location.href);
     let redirect = urlParams.searchParams.get('redirect');
     // Remove the parameters in the url
@@ -199,7 +199,7 @@ class Main extends React.PureComponent {
   };
 
   render() {
-    const bashRedirect = this.getBashRedirect();
+    const baseRedirect = this.getBaseRedirect();
     const { match, routerData, location } = this.props;
     return (
       <DocumentTitle title={this.getPageTitle()}>
@@ -231,7 +231,7 @@ class Main extends React.PureComponent {
                   redirectPath="/exception/403"
                 />
               ))}
-              {bashRedirect && <Redirect exact from="/" to={bashRedirect} />}
+              {baseRedirect && <Redirect exact from="/" to={baseRedirect} />}
               <Route render={() => <div>404</div>} />
             </Switch>
           </Content>
