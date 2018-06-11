@@ -124,6 +124,9 @@ class SubMenu extends PureComponent {
           children[0] &&
           children[0].path && (
             <ul
+              style={{
+                height: !collapsed && expanded && children.length * 50 + 'px'
+              }}
               className={this.getMenuItemWrapperStyle()}
               onMouseEnter={ev => this.handleMouseEvent(ev, true)}
               onMouseLeave={ev => this.handleMouseEvent(ev, false)}
