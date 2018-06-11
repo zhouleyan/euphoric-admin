@@ -25,7 +25,7 @@
   width: @sider-width;
   height: 56px;
   background: @sider-header-background;
-  transition: @sider-transition;
+  transition: @sider-collapsed-transition;
   &-collapsed {
     composes: sider-header;
     width: @sider-collapsed-width;
@@ -42,7 +42,7 @@
 .main-header {
   margin-left: @sider-width;
   box-shadow: @shadow-1-down;
-  transition: @sider-transition;
+  transition: @sider-collapsed-transition;
   &-collapsed {
     composes: main-header;
     margin-left: @sider-collapsed-width;

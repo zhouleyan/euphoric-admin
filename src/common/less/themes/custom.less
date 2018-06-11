@@ -10,6 +10,9 @@ body {
 // shadow
 @shadow-color : rgba(0, 0, 0, .05);
 
+// transition
+@transition-time: 0.3s;
+
 // sider
 @sider-background: #2f4050;
 @sider-header-background: @sider-background;
@@ -18,11 +21,9 @@ body {
 @sider-menu-text-color: #a7b1c2;
 @sider-menu-text-color-hover: white;
 @sider-menu-background-hover: #293846;
+@sider-collapsed-transition: all @transition-time;
+@sider-menu-item-wrapper-transition: height @transition-time;
 
 // zindex fixed
 @zindex-header: 99;
 @zindex-sider: 90;
-
-// transition
-@transition-time: .3s;
-@sider-transition: all @transition-time;

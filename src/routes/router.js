@@ -25,6 +25,7 @@ import Snapshot from '../views/Storage/Snapshot';
 
 /* 学习 */
 import SVG from '../views/Learning/SVG';
+import Animation from '../views/Learning/Animation';
 
 const getFlatMenuData = menus => {
   let keys = {};
@@ -70,6 +71,9 @@ export const getRouterData = () => {
     },
     '/learning/svg': {
       component: SVG
+    },
+    '/learning/animation': {
+      component: Animation
     },
     '/auth': {
       component: Auth

@@ -69,6 +69,10 @@ const menuData = [
       {
         name: 'SVG学习',
         path: 'svg'
+      },
+      {
+        name: '动画学习',
+        path: 'animation'
       }
     ]
   },
