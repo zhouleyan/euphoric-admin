@@ -73,6 +73,10 @@ const menuData = [
       {
         name: '动画学习',
         path: 'animation'
+      },
+      {
+        name: '可见性',
+        path: 'visibility'
       }
     ]
   },

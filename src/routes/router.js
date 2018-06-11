@@ -26,6 +26,7 @@ import Snapshot from '../views/Storage/Snapshot';
 /* 学习 */
 import SVG from '../views/Learning/SVG';
 import Animation from '../views/Learning/Animation';
+import Visibility from '../views/Learning/Visibility';
 
 const getFlatMenuData = menus => {
   let keys = {};
@@ -74,6 +75,9 @@ export const getRouterData = () => {
     },
     '/learning/animation': {
       component: Animation
+    },
+    '/learning/visibility': {
+      component: Visibility
     },
     '/auth': {
       component: Auth
