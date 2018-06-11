@@ -109,7 +109,6 @@ class SubMenu extends PureComponent {
           onMouseEnter={ev => this.handleMouseEvent(ev, true)}
           onMouseLeave={ev => this.handleMouseEvent(ev, false)}
         >
-          {title}
           {!collapsed &&
             children &&
             children[0] &&
@@ -118,6 +117,7 @@ class SubMenu extends PureComponent {
                 <Icon type={expanded ? 'up' : 'down'} />
               </span>
             )}
+          {title}
         </div>
         {/* 二级菜单 */}
         {children &&

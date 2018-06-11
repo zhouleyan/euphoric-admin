@@ -80,11 +80,47 @@ const menuData = [
     name: '外部链接',
     icon: 'global',
     path: 'global',
-    authority: 'rfr',
+    // authority: 'rfr',
     children: [
       {
         name: '百度',
-        path: 'https://www.baidu.com'
+        path: 'https://www.baidu.com/1'
+      },
+      {
+        name: '百度',
+        path: 'https://www.baidu.com/2'
+      },
+      {
+        name: '百度',
+        path: 'https://www.baidu.com/3'
+      },
+      {
+        name: '百度',
+        path: 'https://www.baidu.com/4'
+      },
+      {
+        name: '百度',
+        path: 'https://www.baidu.com/5'
+      },
+      {
+        name: '百度',
+        path: 'https://www.baidu.com/6'
+      },
+      {
+        name: '百度',
+        path: 'https://www.baidu.com/7'
+      },
+      {
+        name: '百度',
+        path: 'https://www.baidu.com/8'
+      },
+      {
+        name: '百度',
+        path: 'https://www.baidu.com/9'
+      },
+      {
+        name: '百度',
+        path: 'https://www.baidu.com/10'
       }
     ]
   }

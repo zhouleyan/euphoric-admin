@@ -29,7 +29,7 @@ class SVG extends PureComponent {
             width="150"
             height="100"
             stroke="red"
-            stroke-width="2"
+            strokeWidth="2"
             fill="blue"
             // fill="none"
           />
