@@ -2,7 +2,7 @@
 
 .sider {
   position: fixed;
-  // overflow-y: auto;
+  overflow-y: auto;
   padding-top: 56px;
   float: left;
   width: @sider-width;
@@ -12,6 +12,7 @@
   transition: @sider-collapsed-transition;
   &-collapsed {
     composes: sider;
+    overflow-y: visible;
     width: @sider-collapsed-width;
   }
   /*webkit内核*/
