@@ -27,6 +27,7 @@ import Snapshot from '../views/Storage/Snapshot';
 import SVG from '../views/Learning/SVG';
 import Animation from '../views/Learning/Animation';
 import Visibility from '../views/Learning/Visibility';
+import BFC from '../views/Learning/BFC';
 
 const getFlatMenuData = menus => {
   let keys = {};
@@ -78,6 +79,9 @@ export const getRouterData = () => {
     },
     '/learning/visibility': {
       component: Visibility
+    },
+    '/learning/bfc': {
+      component: BFC
     },
     '/auth': {
       component: Auth

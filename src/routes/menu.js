@@ -77,6 +77,10 @@ const menuData = [
       {
         name: '可见性',
         path: 'visibility'
+      },
+      {
+        name: 'BFC',
+        path: 'bfc'
       }
     ]
   },
