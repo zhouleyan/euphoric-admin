@@ -78,9 +78,12 @@
   &-menu {
     list-style: none;
     padding: 0 0 96px 0;
-    &::before {
+    &::before, &::after {
       content: ' ';
       display: table;
+    }
+    &::after {
+      clear: both;
     }
     & > li {
       position: relative;
@@ -142,9 +145,12 @@
       height: 0;
       overflow: hidden;
     }
-    &::before {
+    &::before, &::after {
       content: ' ';
       display: table;
+    }
+    &::after {
+      clear: both;
     }
   }
   padding: 4px 0;

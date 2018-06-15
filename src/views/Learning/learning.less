@@ -47,3 +47,40 @@
 
 .innerBtn {
 }
+
+/* Visibility */
+.sider-menu {
+  list-style: none;
+  padding: 0;
+  &::before, &::after {
+    content: ' ';
+    display: table;
+  }
+  &::after {
+    clear: both;
+  }
+  & > li > a {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 17px;
+    background: lightsalmon;
+    overflow: hidden;
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
+    &:hover {
+      background: salmon;
+    }
+    & .menuArrow {
+      float: right;
+    }
+    &::before, &::after {
+      content: ' ';
+      display: table;
+    }
+    &::after {
+      clear: both;
+    }
+  }
+}
+

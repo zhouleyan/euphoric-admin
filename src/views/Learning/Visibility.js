@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
+import styles from './learning.less';
+import Icon from '../../components/Icon';
 
 class Visibility extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      isHiden: false
+      collapsed: false
     };
   }
 
@@ -12,7 +14,7 @@ class Visibility extends PureComponent {
     ev.stopPropagation();
     ev.preventDefault();
     this.setState({
-      isHiden: !this.state.isHiden
+      collapsed: !this.state.collapsed
     });
   };
 
@@ -22,13 +24,23 @@ class Visibility extends PureComponent {
         <button onClick={ev => this.handleClick(ev)}>显示/隐藏</button>
         <div
           style={{
-            width: '300px',
-            height: '200px',
-            background: 'blue',
-            visibility: this.state.isHiden ? 'hidden' : 'initial',
-            transition: 'all 1s'
+            width: this.state.collapsed ? '48px' : '200px',
+            height: '500px',
+            background: 'lightgray',
+            transition: 'width .3s'
           }}
-        />
+        >
+          <ul className={styles.siderMenu}>
+            {[1, 2, 3, 4, 5].map(index => (
+              <li key={index}>
+                <a>
+                  <span className={styles.menuArrow}><Icon type={this.state.collapsed ? "desktop" : "down"} /></span>
+                  {!this.state.collapsed && <span>菜单{index}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     );
   }
