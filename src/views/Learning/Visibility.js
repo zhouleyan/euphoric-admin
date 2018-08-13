@@ -34,8 +34,16 @@ class Visibility extends PureComponent {
             {[1, 2, 3, 4, 5].map(index => (
               <li key={index}>
                 <a>
-                  <span className={styles.menuArrow}><Icon type={this.state.collapsed ? "desktop" : "down"} /></span>
-                  {!this.state.collapsed && <span>菜单{index}</span>}
+                  <span className={styles.menuArrow}>
+                    {/* <Icon type="down" /> */}
+                    <Icon type={!this.state.collapsed ? "down" : "desktop"} />
+                  </span>
+                  {!this.state.collapsed && (
+                    <span>
+                      <Icon type="desktop" />
+                      <span>菜单{index}</span>
+                    </span>
+                  )}
                 </a>
               </li>
             ))}
